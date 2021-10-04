@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Zork
@@ -8,23 +9,11 @@ namespace Zork
     class Program
     {
         #region Constructor
-            static Program()
-            {
-                RoomMap = new Dictionary<string, Room>();
-                foreach(Room room in Rooms)
-                {
-                    RoomMap[room.Name] = room;
-                }
-            }
+            
         #endregion
 
         #region Vars
-            private static readonly Room[,] Rooms =
-            {
-                    { new Room("Dense Woods"),    new Room("North of House"),   new Room("Clearing") },
-                    { new Room("Forest"),         new Room("West of House"),    new Room("Behind House") },
-                    { new Room("Rocky Trail"),    new Room("South of House"),   new Room("Canyon View") }
-            };
+            private static Room[,] Rooms;
 
             private enum Fields
             {
@@ -37,23 +26,8 @@ namespace Zork
                 RoomsFilename = 0
             }
 
-            private static void InitRoomDescriptions(string roomsFilename)
-            {
-                const string fieldDelimiter = "##";
-                const int expectedFieldCount = 2;
-
-                var roomQuery = from line in File.ReadLines(roomsFilename)
-                                let fields = line.Split(fieldDelimiter)
-                                where fields.Length == expectedFieldCount
-                                select (Name: fields[(int)Fields.Name],
-                                        Description: fields[(int)Fields.Description]);
-
-
-                foreach(var (Name, Description) in roomQuery)
-                {
-                    RoomMap[Name].Description = Description;
-                }
-            }
+            private static void InitRooms(string roomsFilename) => 
+                Rooms = JsonConvert.DeserializeObject<Room[,]>(File.ReadAllText(roomsFilename));
 
             private static Room CurrentRoom
             {
@@ -73,9 +47,9 @@ namespace Zork
             {
                 Console.WriteLine("Welcome to Zork!");
 
-                const string defaultRoomsFilename = "Rooms.txt";
+                const string defaultRoomsFilename = "Rooms.Json";
                 string roomsFilename = (args.Length > 0 ? args[(int)CommandLineArguments.RoomsFilename] : defaultRoomsFilename);
-                InitRoomDescriptions(roomsFilename);
+                InitRooms(roomsFilename);
 
                 Room previousRoom = null;
                 Commands command = Commands.UNKNOWN;
