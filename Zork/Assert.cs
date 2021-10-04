@@ -8,7 +8,7 @@ namespace Zork
         [Conditional("DEBUG")]
         public static void IsTrue(bool expression, string message = null)
         {
-            if(expression == false)
+            if(expression == false) 
             {
                 throw new Exception(message);
             }

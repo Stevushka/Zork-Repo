@@ -11,5 +11,5 @@ namespace Zork
         WEST,
         EAST,
         UNKNOWN
-    }
+    } 
 }
