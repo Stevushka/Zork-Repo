@@ -19,13 +19,5 @@ namespace Zork
         {
             GameFilename = 0
         }
-
-       
     }
 }
-
-/* CODE JAIL
- *
- *
- * 
- */
