@@ -6,13 +6,22 @@ namespace Zork
 {
     public class Game
     {
+        public ConsoleOutputService Output { get; set; }
+        public ConsoleInputService Input { get; set; }
+
         public World World { get; private set; }
+
+        public string StartingLocation { get; set; }
+
+        public string WelcomeMessage { get; set; }
+
+        public string ExitMessage { get; set; }
 
         [JsonIgnore]
         public Player Player { get; private set; }
 
         [JsonIgnore]
-        private bool IsRunning { get; set; }
+        public bool IsRunning { get; set; }
 
         public Game(World world, Player player)
         {
@@ -20,49 +29,19 @@ namespace Zork
             Player = player;
         }
 
-        public void Run()
+        public void Start(ConsoleInputService input, ConsoleOutputService output)
         {
+            Input = input;
+            Input.InputRecieved += Input_InputRecieved;
+
+            Output = output;
+
             IsRunning = true;
-            Room previousRoom = null;
-            while(IsRunning)
-            {
-                Console.WriteLine(Player.Location);
-                if(previousRoom != Player.Location)
-                {
-                    Console.WriteLine(Player.Location.Description);
-                    previousRoom = Player.Location;
-                }
+        }
 
-                Console.Write("\n> ");
-                Commands command = ToCommand(Console.ReadLine().Trim());
-
-                switch (command)
-                {
-                    case Commands.QUIT:
-                        IsRunning = false;
-                        break;
-
-                    case Commands.LOOK:
-                        Console.WriteLine(Player.Location.Description);
-                        break;
-
-                    case Commands.NORTH:
-                    case Commands.SOUTH:
-                    case Commands.EAST:
-                    case Commands.WEST:
-                        Directions direction = (Directions)command;
-                        if(Player.Move(direction) == false)
-                        {
-                            Console.WriteLine("The way is shut!");
-                        }
-                        break;
-
-                    case Commands.UNKNOWN:
-                    default:
-                        Console.WriteLine("Unknown Command.");
-                        break;
-                }
-            }
+        private void Input_InputRecieved(object sender, string e)
+        {
+            
         }
 
         public static Game Load(string filename)
