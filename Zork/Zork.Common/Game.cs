@@ -6,7 +6,10 @@ namespace Zork
 {
     public class Game
     {
+        [JsonIgnore]
         public ConsoleOutputService Output { get; set; }
+
+        [JsonIgnore]
         public ConsoleInputService Input { get; set; }
 
         public World World { get; private set; }
@@ -15,6 +18,7 @@ namespace Zork
 
         public string WelcomeMessage { get; set; }
 
+        [JsonIgnore]
         public string ExitMessage { get; set; }
 
         [JsonIgnore]
@@ -32,14 +36,14 @@ namespace Zork
         public void Start(ConsoleInputService input, ConsoleOutputService output)
         {
             Input = input;
-            Input.InputRecieved += Input_InputRecieved;
+            Input.InputReceived += Input_InputReceived;
 
             Output = output;
 
             IsRunning = true;
         }
 
-        private void Input_InputRecieved(object sender, string e)
+        private void Input_InputReceived(object sender, string e)
         {
             
         }
