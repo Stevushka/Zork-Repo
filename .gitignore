@@ -3,6 +3,14 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+/Zork/Zork.Unity/[Ll]ibrary/
+/Zork/Zork.Unity/[Tt]emp/
+/Zork/Zork.Unity/[Oo]bj/
+/Zork/Zork.Unity/[Bb]uilds/
+/Zork/Zork.Unity/[Bb]uild/
+/Zork/Zork.Unity/[Ll]ogs/
+/Zork/Zork.Unity/[Uu]ser[Ss]ettings/
+
 # User-specific files
 *.rsuser
 *.suo
