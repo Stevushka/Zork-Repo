@@ -399,6 +399,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b8792b440937b4ba26283cb24bb1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxEntries: 60
+  OutputTextContainer: {fileID: 98451597}
+  TextLinePrefab: {fileID: 0}
+  NewLinePrefab: {fileID: 0}
 --- !u!114 &401085976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,6 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7133c66265933bd4d816e30d59b00afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputField: {fileID: 1075843495}
 --- !u!114 &401085977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +428,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 515ef4c1e9b7b8043bd7f80c23ec82cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLocaitonText: {fileID: 1329821837}
+  InputService: {fileID: 401085976}
+  OutputService: {fileID: 401085975}
 --- !u!4 &401085978
 Transform:
   m_ObjectHideFlags: 0
