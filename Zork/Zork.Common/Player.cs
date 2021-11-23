@@ -43,6 +43,8 @@ namespace Zork
         {
             World = world;
             LocationName = startingLocation;
+            Moves = 0;
+            Score = 0;
         }
 
         public bool Move(Directions direction)
@@ -57,5 +59,7 @@ namespace Zork
         }
 
         private Room _location;
+        public int Moves;
+        public int Score;
     }
 }
