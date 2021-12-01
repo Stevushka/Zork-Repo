@@ -4,7 +4,6 @@ namespace Zork
 {
     class Program
     {
-        
         static void Main(string[] args)
         {
             const string defaultRoomsFilename = "Zork.Json";
@@ -17,6 +16,13 @@ namespace Zork
 
             output.WriteLine(string.IsNullOrWhiteSpace(game.WelcomeMessage) ? "Welcome to Zork!" : game.WelcomeMessage);
             game.Start(input, output);
+
+            while (game.SettingUp)
+            {
+                output.WriteLine("Press Any Key To Start");
+                output.Write("\n> ");
+                input.ProcessInput();
+            }
 
             Room previousRoom = null;
             while (game.IsRunning)

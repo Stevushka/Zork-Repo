@@ -14,9 +14,9 @@ namespace Zork
 
         public Command(string name, IEnumerable<string> verbs, Action<Game> action)
         {
-            //Assert.IsNotNull(name);
-            //Assert.IsNotNull(verbs);
-            //Assert.IsNotNull(action);
+            Assert.IsNotNull(name);
+            Assert.IsNotNull(verbs);
+            Assert.IsNotNull(action);
 
             Name = name;
             Verbs = verbs.ToArray();

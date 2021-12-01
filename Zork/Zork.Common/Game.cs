@@ -30,6 +30,9 @@ namespace Zork
         public bool IsRunning { get; set; }
 
         [JsonIgnore]
+        public bool SettingUp { get; set; }
+
+        [JsonIgnore]
         public Dictionary<string, Command> Commands { get; private set; }
 
         public Game(World world, Player player)
@@ -69,11 +72,29 @@ namespace Zork
         public void Start(IInputService input, IOutputService output)
         {
             Input = input;
-            Input.InputReceived += Input_InputReceived;
+            //Input.InputReceived += Input_InputReceived;
+            Input.InputReceived += Input_SetupInputReceived;
 
             Output = output;
 
+            SettingUp = true;
+        }
+
+        public void Play()
+        {
+            Input.InputReceived -= Input_SetupInputReceived;
+            Input.InputReceived += Input_InputReceived;
+
+            SettingUp = false;
             IsRunning = true;
+        }
+
+        private void Input_SetupInputReceived(object sender, string commandString)
+        {
+            if (!string.IsNullOrWhiteSpace(commandString))
+            {
+                Play();
+            }
         }
 
         private void Input_InputReceived(object sender, string commandString)

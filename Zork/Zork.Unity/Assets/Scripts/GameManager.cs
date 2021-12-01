@@ -17,14 +17,17 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private UnityOutputService OutputService;
 
-    // Start is called before the first frame update
     void Start()
     {
+        //Setup
         TextAsset gameTextAsset = Resources.Load<TextAsset>("Zork");
         _game = JsonConvert.DeserializeObject<Game>(gameTextAsset.text);
+        _game.Start(InputService, OutputService);
+
+        //Events
         _game.Player.LocationChanged += PlayerLocationChanged;
         
-        _game.Start(InputService, OutputService);
+        //Initialize
         CurrentLocationText.text = _game.Player.Location.ToString();
     }
 
