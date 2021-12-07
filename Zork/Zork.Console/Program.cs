@@ -1,4 +1,6 @@
 ﻿using System;
+using Zork;
+using System.IO;
 
 namespace Zork
 {
@@ -9,7 +11,7 @@ namespace Zork
             const string defaultRoomsFilename = "Zork.Json";
             string gameFilename = (args.Length > 0 ? args[(int)CommandLineArguments.GameFilename] : defaultRoomsFilename);
 
-            Game game = Game.Load(gameFilename);
+            Game game = Game.Load(File.ReadAllText(gameFilename));
 
             ConsoleInputService input = new ConsoleInputService();
             ConsoleOutputService output = new ConsoleOutputService();
@@ -17,7 +19,7 @@ namespace Zork
             output.WriteLine(string.IsNullOrWhiteSpace(game.WelcomeMessage) ? "Welcome to Zork!" : game.WelcomeMessage);
             game.Start(input, output);
 
-            while (game.SettingUp)
+            while (game.Init)
             {
                 output.WriteLine("Press Any Key To Start");
                 output.Write("\n> ");
@@ -27,7 +29,7 @@ namespace Zork
             Room previousRoom = null;
             while (game.IsRunning)
             {
-                output.WriteLine(game.Player.Location);
+                output.WriteLine(game.Player.Location.Name);
                 if(previousRoom != game.Player.Location)
                 {
                     game.Look(game);

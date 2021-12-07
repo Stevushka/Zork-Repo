@@ -6,7 +6,7 @@ using TMPro;
 public class UnityInputService : MonoBehaviour, IInputService
 {
     [SerializeField]
-    private TMP_InputField InputField;
+    private TMP_InputField InputField = null;
 
     public event EventHandler<string> InputReceived;
 

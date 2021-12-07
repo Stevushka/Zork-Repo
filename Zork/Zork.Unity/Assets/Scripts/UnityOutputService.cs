@@ -12,13 +12,13 @@ public class UnityOutputService : MonoBehaviour, IOutputService
     private int MaxEntries = 60;
 
     [SerializeField]
-    private Transform OutputTextContainer;
+    private Transform OutputTextContainer = null;
 
     [SerializeField]
-    private TextMeshProUGUI TextLinePrefab;
+    private TextMeshProUGUI TextLinePrefab = null;
 
     [SerializeField]
-    private Image NewLinePrefab;
+    private Image NewLinePrefab = null;
 
     public UnityOutputService() => mEntries = new List<GameObject>();
 
@@ -55,27 +55,17 @@ public class UnityOutputService : MonoBehaviour, IOutputService
 
     private void WriteNewLine()
     {
-        var newLine = GameObject.Instantiate(NewLinePrefab);
+        var newLine = Instantiate(NewLinePrefab);
         newLine.transform.SetParent(OutputTextContainer, false);
         mEntries.Add(newLine.gameObject);
     }
 
     private void WriteTextLine(string value)
     {
-        var textLine = GameObject.Instantiate(TextLinePrefab);
+        var textLine = Instantiate(TextLinePrefab);
         textLine.transform.SetParent(OutputTextContainer, false);
         textLine.text = value;
         mEntries.Add(textLine.gameObject);
-    }
-
-    public void Write(object value)
-    {
-        
-    }
-
-    public void WriteLine(object value)
-    {
-        
     }
 
     private readonly List<GameObject> mEntries;

@@ -7,6 +7,10 @@ namespace Zork
     {
         public event EventHandler<Room> LocationChanged;
 
+        public event EventHandler<int> ScoreChanged;
+
+        public event EventHandler<int> MovesChanged;
+
         public World World { get; }
 
         [JsonIgnore]
@@ -16,12 +20,49 @@ namespace Zork
             {
                 return _location;
             }
+
             private set
             {
                 if(_location != value)
                 {
                     _location = value;
                     LocationChanged?.Invoke(this, _location);
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public int Score
+        {
+            get
+            {
+                return _score;
+            }
+
+            set
+            {
+                if (_score != value)
+                {
+                    _score = value;
+                    ScoreChanged?.Invoke(this, _score);
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public int Moves
+        {
+            get
+            {
+                return _moves;
+            }
+
+            set
+            {
+                if (_moves != value)
+                {
+                    _moves = value;
+                    MovesChanged?.Invoke(this, _moves);
                 }
             }
         }
@@ -59,7 +100,7 @@ namespace Zork
         }
 
         private Room _location;
-        public int Moves;
-        public int Score;
+        public int _moves;
+        public int _score;
     }
 }

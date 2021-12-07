@@ -30,7 +30,7 @@ namespace Zork
         public bool IsRunning { get; set; }
 
         [JsonIgnore]
-        public bool SettingUp { get; set; }
+        public bool Init { get; set; }
 
         [JsonIgnore]
         public Dictionary<string, Command> Commands { get; private set; }
@@ -44,10 +44,10 @@ namespace Zork
             {
                 { "QUIT", new Command("QUIT", new string[] { "QUIT", "Q", "BYE" }, Quit) },
                 { "LOOK", new Command("LOOK", new string[] { "LOOK", "L" }, Look) },
-                { "NORTH", new Command("NORTH", new string[] { "NORTH", "N" }, game => Move(game, Directions.North)) },
-                { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.South)) },
-                { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.East)) },
-                { "WEST", new Command("WEST", new string[] { "WEST", "W" }, game => Move(game, Directions.West)) },
+                { "NORTH", new Command("NORTH", new string[] { "NORTH", "N" }, game => Move(game, Directions.NORTH)) },
+                { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.SOUTH)) },
+                { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.EAST)) },
+                { "WEST", new Command("WEST", new string[] { "WEST", "W" }, game => Move(game, Directions.WEST)) },
             };
         }
 
@@ -77,7 +77,7 @@ namespace Zork
 
             Output = output;
 
-            SettingUp = true;
+            Init = true;
         }
 
         public void Play()
@@ -85,7 +85,7 @@ namespace Zork
             Input.InputReceived -= Input_SetupInputReceived;
             Input.InputReceived += Input_InputReceived;
 
-            SettingUp = false;
+            Init = false;
             IsRunning = true;
         }
 
@@ -113,6 +113,7 @@ namespace Zork
             {
                 foundCommand.Action(this);
                 Player.Moves++;
+                Output.WriteLine("Blah");
             }
             else
             {
@@ -120,9 +121,9 @@ namespace Zork
             }
         }
 
-        public static Game Load(string filename)
+        public static Game Load(string filetext)
         {
-            Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(filename));
+            Game game = JsonConvert.DeserializeObject<Game>(filetext);
             game.Player = game.World.SpawnPlayer();
 
             return game;
