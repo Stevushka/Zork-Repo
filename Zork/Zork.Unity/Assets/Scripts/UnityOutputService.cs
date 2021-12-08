@@ -9,7 +9,7 @@ using TMPro;
 public class UnityOutputService : MonoBehaviour, IOutputService
 {
     [SerializeField]
-    private int MaxEntries = 60;
+    private int MaxEntries = 5;
 
     [SerializeField]
     private Transform OutputTextContainer = null;
@@ -64,7 +64,7 @@ public class UnityOutputService : MonoBehaviour, IOutputService
     {
         var textLine = Instantiate(TextLinePrefab);
         textLine.transform.SetParent(OutputTextContainer, false);
-        textLine.text = value;
+        textLine.text = "> " + value;
         mEntries.Add(textLine.gameObject);
     }
 

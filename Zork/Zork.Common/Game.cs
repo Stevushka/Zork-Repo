@@ -8,6 +8,8 @@ namespace Zork
 {
     public class Game
     {
+        public event EventHandler GameQuit;
+
         [JsonIgnore]
         public IOutputService Output { get; set; }
 
@@ -54,6 +56,7 @@ namespace Zork
         private void Quit(Game game)
         {
             game.IsRunning = false;
+            GameQuit?.Invoke(this, null);
         }
 
         public void Look(Game game)
@@ -91,7 +94,7 @@ namespace Zork
 
         private void Input_SetupInputReceived(object sender, string commandString)
         {
-            if (!string.IsNullOrWhiteSpace(commandString))
+            if(!string.IsNullOrWhiteSpace(commandString))
             {
                 Play();
             }
@@ -113,7 +116,6 @@ namespace Zork
             {
                 foundCommand.Action(this);
                 Player.Moves++;
-                Output.WriteLine("Blah");
             }
             else
             {
