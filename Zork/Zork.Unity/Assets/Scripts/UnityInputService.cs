@@ -21,6 +21,9 @@ public class UnityInputService : MonoBehaviour, IInputService
             }
 
             InputField.text = string.Empty;
+            SelectInputField();
         }
     }
+
+    public void SelectInputField() => InputField.ActivateInputField();
 }

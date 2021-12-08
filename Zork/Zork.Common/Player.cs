@@ -21,7 +21,7 @@ namespace Zork
                 return _location;
             }
 
-            private set
+            set
             {
                 if(_location != value)
                 {

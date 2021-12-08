@@ -28,24 +28,41 @@ public class GameManager : MonoBehaviour
         //Setup
         TextAsset gameTextAsset = Resources.Load<TextAsset>("Zork");
         _game = Game.Load(gameTextAsset.text);
-
-        //Initialize
-        CurrentLocationText.text = _game.Player.Location.ToString();
+        CurrentLocationText.text = string.Empty;
+        ScoreText.text = string.Empty;
+        MovesText.text = string.Empty;
 
         //Events
         _game.Player.LocationChanged += PlayerLocationChanged;
         _game.Player.ScoreChanged += PlayerScoreChanged;
         _game.Player.MovesChanged += PlayerMovesChanged;
-        _game.GameQuit += _game_GameQuit;
+        _game.GameInit += Game_Init;
+        _game.GameQuit += Game_Quit;
 
         //Start
         _game.Start(InputService, OutputService);
-        _game.Output.WriteLine("Press any key to begin!");
+        OutputService.WriteLine("Press any key to begin!");
+        InputService.SelectInputField();
     }
 
-    private void _game_GameQuit(object sender, EventArgs e)
+    private void Game_Init(object sender, EventArgs e)
     {
-        output.WriteLine(string.IsNullOrWhiteSpace(_game.ExitMessage) ? "Thank you for playing!" : _game.ExitMessage);
+        OutputService.WriteLine(string.IsNullOrWhiteSpace(_game.WelcomeMessage) ? "Welcome To Zork!" : _game.WelcomeMessage);
+        CurrentLocationText.text = _game.Player.Location.Name;
+        ScoreText.text = "Score: " + _game.Player.Score.ToString();
+        MovesText.text = "Moves: " + _game.Player.Moves.ToString();
+        _game.Look(_game);
+    }
+    
+    private void Game_Quit(object sender, EventArgs e)
+    {
+        OutputService.WriteLine(string.IsNullOrWhiteSpace(_game.ExitMessage) ? "Thank you for playing!" : _game.ExitMessage);
+
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     private void PlayerMovesChanged(object sender, int newMoves)
@@ -65,6 +82,4 @@ public class GameManager : MonoBehaviour
     }
 
     private Game _game;
-
-
 }

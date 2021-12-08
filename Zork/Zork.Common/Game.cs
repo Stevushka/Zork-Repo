@@ -9,6 +9,8 @@ namespace Zork
     public class Game
     {
         public event EventHandler GameQuit;
+        public event EventHandler GameInit;
+
 
         [JsonIgnore]
         public IOutputService Output { get; set; }
@@ -75,7 +77,6 @@ namespace Zork
         public void Start(IInputService input, IOutputService output)
         {
             Input = input;
-            //Input.InputReceived += Input_InputReceived;
             Input.InputReceived += Input_SetupInputReceived;
 
             Output = output;
@@ -96,6 +97,7 @@ namespace Zork
         {
             if(!string.IsNullOrWhiteSpace(commandString))
             {
+                GameInit?.Invoke(this, null);
                 Play();
             }
         }
